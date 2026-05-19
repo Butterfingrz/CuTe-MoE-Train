@@ -1,0 +1,27 @@
+[package]
+name = "group_gemm"
+version = "0.2.0"
+
+[package.build]
+backend = { name = "pixi-build-python", version = "*" }
+
+[package.build.config]
+extra-input-globs = [
+    "csrc/**/*.cu", "csrc/**/*.cuh", "csrc/**/*.cpp", "csrc/**/*.h",
+    "external/cutlass/include/**/*.h", "external/cutlass/include/**/*.hpp", "external/cutlass/include/**/*.cuh",
+    "external/cutlass/tools/util/include/**/*.h", "external/cutlass/tools/util/include/**/*.hpp",
+]
+noarch = false
+env = { TORCH_CUDA_ARCH_LIST = "9.0", SCCACHE_DIR = "${HOME}/.cache/sccache" }
+
+[package.host-dependencies]
+python = "3.12.*"
+setuptools = ">=64"
+pytorch = { version = "*", build = "*cuda*" }
+cuda = "12.9.*"
+pybind11 = "*"
+sccache = ">=0.15"
+
+[package.run-dependencies]
+python = "3.12.*"
+pytorch = { version = "*", build = "*cuda*" }
